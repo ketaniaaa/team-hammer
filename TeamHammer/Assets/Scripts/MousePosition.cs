@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class MousePosition : MonoBehaviour
 {
-    [SerializeField] private Camera camera  ;
+    [SerializeField] private Camera camera;
 
-    private void Update()
+    public Vector2 GetMousePosition()
     {
-        Debug.Log(camera.ScreenToWorldPoint(Input.mousePosition));
+       return camera.ScreenToWorldPoint(Input.mousePosition);
     }
 }
