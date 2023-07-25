@@ -17,8 +17,7 @@ public class PlayerDirection : MonoBehaviour
     {
         Vector2 mouseLocation = mousePosition.GetMousePosition();
         Vector2 playerLocation = transform.position;
-        Debug.Log(GetDirection(playerLocation, mouseLocation));
-        Direction direction= (GetDirection(playerLocation, mouseLocation));
+        Direction direction= (GetDirectionBetweenTwoPoints(playerLocation, mouseLocation));
         string directionInString = null;
         switch (direction)
         {
@@ -49,7 +48,7 @@ public class PlayerDirection : MonoBehaviour
         }
         animator.SetBool(directionInString, true);
     }
-    private Direction GetDirection(Vector2 point1, Vector2 point2)
+    private Direction GetDirectionBetweenTwoPoints(Vector2 point1, Vector2 point2)
     {
         float angle = CalculateRotation(point1, point2);
         //each of the 8 angle will be 45 degree
