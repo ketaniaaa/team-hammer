@@ -5,49 +5,75 @@ using UnityEngine;
 
 public class PlayerDirection : MonoBehaviour
 {
-    [SerializeField] private MousePosition mousePosition;
     Animator animator;
+    private Direction currentDirection= Direction.None;
+
 
     private void Awake()
     {
         animator = GetComponent<Animator>();
     }
 
-    public void FaceTheCursor()
+    public Direction GetDirection()
     {
-        Vector2 mouseLocation = mousePosition.GetMousePosition();
-        Vector2 playerLocation = transform.position;
-        Direction direction= (GetDirectionBetweenTwoPoints(playerLocation, mouseLocation));
+        return currentDirection;
+    }
+    public void ChangeDirection(Direction direction)
+    {
         string directionInString = null;
         switch (direction)
         {
             case Direction.Up:
                 directionInString = "Up";
+                currentDirection = Direction.Up;
                 break;
             case Direction.Down:
                 directionInString = "Down";
+                currentDirection = Direction.Down;
                 break;
             case Direction.Left:
                 directionInString = "Left";
+                currentDirection = Direction.Left;
                 break;
             case Direction.Right:
                 directionInString = "Right";
+                currentDirection = Direction.Right;
                 break;
             case Direction.UpRight:
                 directionInString = "UpRight";
+                    currentDirection = Direction.UpRight;
                 break;
             case Direction.DownRight:
                 directionInString = "DownRight";
+                currentDirection = Direction.DownRight;
                 break;
             case Direction.DownLeft:
                 directionInString = "DownLeft";
+                currentDirection = Direction.DownLeft;
                 break;
             case Direction.UpLeft:
                 directionInString = "UpLeft";
+                currentDirection = Direction.UpLeft;
                 break;
         }
-        animator.SetBool(directionInString, true);
+        if (!animator.GetBool(directionInString))
+        {
+            animator.SetBool(directionInString, true);
+        }
     }
+
+    //METHODS
+    //shoudl prob mnove this to attack later
+    [SerializeField] private MousePosition mousePosition;
+    public void FaceTheCursor()
+    {
+        Vector2 mouseLocation = mousePosition.GetMousePosition();
+        Vector2 playerLocation = transform.position;
+        Direction direction= (GetDirectionBetweenTwoPoints(playerLocation, mouseLocation));
+        ChangeDirection(direction);
+    }
+
+
     private Direction GetDirectionBetweenTwoPoints(Vector2 point1, Vector2 point2)
     {
         float angle = CalculateRotation(point1, point2);

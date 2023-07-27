@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,7 +7,18 @@ using UnityEngine.InputSystem;
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] float moveSpeed = 5;
-    [SerializeField] float dashSpeed = 10; 
+    [SerializeField] float dashSpeed = 10;
+    PlayerDirection playerDirection;
+
+
+    private void Awake()
+    {
+        rb = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
+        playerDirection = GetComponent<PlayerDirection>();
+    }
+
+
 
     //movement
     private Rigidbody2D rb;
@@ -20,6 +32,38 @@ public class PlayerController : MonoBehaviour
     private void FixedUpdate()
     {
         rb.velocity = new Vector2(moveInput.x * moveSpeed, moveInput.y * moveSpeed);
+        MatchDirectionToMovement();
+    }
+
+    private void MatchDirectionToMovement()
+    {
+        Direction direction= Direction.None;
+        if (moveInput.x > 0) //move to the right
+        {
+            if (moveInput.y > 0)
+                direction = Direction.UpRight;
+            else if (moveInput.y < 0)
+                direction = Direction.DownRight;
+            else
+                direction = Direction.Right;
+        }
+        else if (moveInput.x < 0)
+        {
+            if (moveInput.y > 0)
+                direction = Direction.UpLeft;
+            else if (moveInput.y < 0)
+                direction = Direction.DownLeft;
+            else
+                direction = Direction.Left;
+        }
+        else if (moveInput.x == 0)
+        {
+            if (moveInput.y > 0)
+                direction = Direction.Up;
+            if (moveInput.y < 0)
+                direction = Direction.Down;
+        }
+        playerDirection.ChangeDirection(direction);
     }
 
     /*
@@ -32,22 +76,16 @@ public class PlayerController : MonoBehaviour
     
     IEnumerator Dash()
     {
-        rb.velocity = new Vector2;
-        yield return new WaitForSeconds(0.2f);
         
     }
     */
+
     //need to set up character direction first
 
     //animation
     Animator animator;
 
 
-    private void Awake()
-    {
-        rb = GetComponent<Rigidbody2D>();
-        animator = GetComponent<Animator>();
-    }
 
     
         // Start is called before the first frame update
