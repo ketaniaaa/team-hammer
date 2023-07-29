@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerDirection : MonoBehaviour
 {
@@ -12,6 +13,7 @@ public class PlayerDirection : MonoBehaviour
     private void Awake()
     {
         animator = GetComponent<Animator>();
+        Debug.Log("Is this every single time");
     }
 
     public Direction GetDirection()
@@ -63,14 +65,17 @@ public class PlayerDirection : MonoBehaviour
     }
 
     //METHODS
-    //shoudl prob mnove this to attack later
+  
     [SerializeField] private MousePosition mousePosition;
-    public void FaceTheCursor()
+    public void FaceTheCursor(InputAction.CallbackContext context)
     {
-        Vector2 mouseLocation = mousePosition.GetMousePosition();
-        Vector2 playerLocation = transform.position;
-        Direction direction= (GetDirectionBetweenTwoPoints(playerLocation, mouseLocation));
-        ChangeDirection(direction);
+        if (context.started)
+        {
+            Vector2 mouseLocation = mousePosition.GetMousePosition(context);
+            Vector2 playerLocation = transform.position;
+            Direction direction= (GetDirectionBetweenTwoPoints(playerLocation, mouseLocation));
+            ChangeDirection(direction);
+        }
     }
 
 

@@ -7,8 +7,14 @@ using UnityEngine.InputSystem;
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] float moveSpeed = 5;
-    [SerializeField] float dashSpeed = 10;
-    PlayerDirection playerDirection;
+    [SerializeField] float dashSpeed = 20;
+    [SerializeField] float dashDuration = 0.2f;
+    [SerializeField] bool isDashing = false;
+    [SerializeField] float dashCooldown= 2f; 
+    [SerializeField] bool canDash = true; 
+
+
+    private PlayerDirection playerDirection;
 
 
     private void Awake()
@@ -31,13 +37,41 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (isDashing)
+        {
+            return;
+        }
         rb.velocity = new Vector2(moveInput.x * moveSpeed, moveInput.y * moveSpeed);
         MatchDirectionToMovement();
     }
+    
+    public void OnDash()
+    {
+        StartCoroutine(Dash());
+    }
+    
+    IEnumerator Dash()
+    {
+        if (canDash)
+        {
+            isDashing = true;
+            rb.velocity = new Vector2(moveInput.x * dashSpeed, moveInput.y * dashSpeed);
+            canDash = false;
+            yield return new WaitForSeconds(dashDuration);
+            isDashing = false;
+            yield return new WaitForSeconds(dashCooldown);
+            canDash = true;
+        }
+    }
+    
+
+
+    //animation direction
+    Animator animator;
 
     private void MatchDirectionToMovement()
     {
-        Direction direction= Direction.None;
+        Direction direction= Direction.Up;
         if (moveInput.x > 0) //move to the right
         {
             if (moveInput.y > 0)
@@ -66,37 +100,6 @@ public class PlayerController : MonoBehaviour
         playerDirection.ChangeDirection(direction);
     }
 
-    /*
-    public void OnDash()
-    {
-        StartCoroutine(Dash());
-
-    }
-
-    
-    IEnumerator Dash()
-    {
-        
-    }
-    */
-
-    //need to set up character direction first
-
-    //animation
-    Animator animator;
 
 
-
-    
-        // Start is called before the first frame update
-        void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }
