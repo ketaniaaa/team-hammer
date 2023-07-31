@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using System.Security;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -13,7 +14,6 @@ public class PlayerDirection : MonoBehaviour
     private void Awake()
     {
         animator = GetComponent<Animator>();
-        Debug.Log("Is this every single time");
     }
 
     public Direction GetDirection()
@@ -60,7 +60,7 @@ public class PlayerDirection : MonoBehaviour
         }
         if (!animator.GetBool(directionInString))
         {
-            animator.SetBool(directionInString, true);
+            SetInAnimator(directionInString);
         }
     }
 
@@ -127,5 +127,20 @@ public class PlayerDirection : MonoBehaviour
             angle += 360; 
         }
         return angle; 
+    }
+
+
+    void SetInAnimator(string facingDirection)
+    {
+        animator.SetBool("Up", false);
+        animator.SetBool("Down", false);
+        animator.SetBool("Right", false);
+        animator.SetBool("Left", false);
+        animator.SetBool("UpLeft", false);
+        animator.SetBool("UpRight", false);
+        animator.SetBool("DownLeft", false);
+        animator.SetBool("DownRight", false);
+
+        animator.SetBool(facingDirection, true);
     }
 }

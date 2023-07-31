@@ -11,7 +11,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float dashDuration = 0.2f;
     [SerializeField] bool isDashing = false;
     [SerializeField] float dashCooldown= 2f; 
-    [SerializeField] bool canDash = true; 
+    [SerializeField] bool canDash = true;
+    [SerializeField] TrailRenderer tr; 
 
 
     private PlayerDirection playerDirection;
@@ -33,6 +34,12 @@ public class PlayerController : MonoBehaviour
     public void OnMove(InputAction.CallbackContext context)
     {
         moveInput = context.ReadValue<Vector2>();
+        if (moveInput.magnitude > 0.01)
+        {
+            animator.SetBool("isMoving", true);
+        }
+        else
+            animator.SetBool("isMoving", false);
     }
 
     private void FixedUpdate()
@@ -55,10 +62,12 @@ public class PlayerController : MonoBehaviour
         if (canDash)
         {
             isDashing = true;
+            tr.emitting = true;
             rb.velocity = new Vector2(moveInput.x * dashSpeed, moveInput.y * dashSpeed);
             canDash = false;
             yield return new WaitForSeconds(dashDuration);
             isDashing = false;
+            tr.emitting = false;
             yield return new WaitForSeconds(dashCooldown);
             canDash = true;
         }
@@ -69,9 +78,10 @@ public class PlayerController : MonoBehaviour
     //animation direction
     Animator animator;
 
+
+    Direction direction= Direction.None;
     private void MatchDirectionToMovement()
     {
-        Direction direction= Direction.Up;
         if (moveInput.x > 0) //move to the right
         {
             if (moveInput.y > 0)
