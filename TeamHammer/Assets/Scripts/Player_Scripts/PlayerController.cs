@@ -7,6 +7,7 @@ using UnityEngine.InputSystem;
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] float moveSpeed = 5;
+    private bool isMoving= false; 
     [SerializeField] float dashSpeed = 20;
     [SerializeField] float dashDuration = 0.2f;
     [SerializeField] bool isDashing = false;
@@ -25,22 +26,10 @@ public class PlayerController : MonoBehaviour
         playerDirection = GetComponent<PlayerDirection>();
     }
 
-
-
     //movement
     private Rigidbody2D rb;
     private Vector2 moveInput;
 
-    public void OnMove(InputAction.CallbackContext context)
-    {
-        moveInput = context.ReadValue<Vector2>();
-        if (moveInput.magnitude > 0.01)
-        {
-            animator.SetBool("isMoving", true);
-        }
-        else
-            animator.SetBool("isMoving", false);
-    }
 
     private void FixedUpdate()
     {
@@ -48,10 +37,30 @@ public class PlayerController : MonoBehaviour
         {
             return;
         }
+
+        //check if it is dashing first 
         rb.velocity = new Vector2(moveInput.x * moveSpeed, moveInput.y * moveSpeed);
-        MatchDirectionToMovement();
+        if (isMoving)
+        {
+            MatchDirectionToMovement();
+        }
+
     }
-    
+    public void OnMove(InputAction.CallbackContext context)
+    {
+        moveInput = context.ReadValue<Vector2>();
+        if (moveInput.magnitude > 0.01)
+        {
+            animator.SetBool("isMoving", true);
+            isMoving = true;
+        }
+        else
+        {
+            animator.SetBool("isMoving", false);
+            isMoving = false;
+        }
+
+    }
     public void OnDash()
     {
         StartCoroutine(Dash());

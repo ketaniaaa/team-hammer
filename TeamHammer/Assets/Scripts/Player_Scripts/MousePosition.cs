@@ -5,13 +5,25 @@ using UnityEngine.InputSystem;
 
 public class MousePosition : MonoBehaviour
 {
-    [SerializeField] private Camera camera;
+    [SerializeField]private GameObject mouseIcon;  
 
-    public Vector2 GetMousePosition(InputAction.CallbackContext context)
+    private Vector2 mouseLocation;
+
+    private void Start()
     {
-        if (context.started)
-         return camera.ScreenToWorldPoint(Input.mousePosition);
-        else 
-          return new Vector2(0, 0);
+      Cursor.visible = false;
     }
+
+    private void Update()
+    {
+        mouseLocation = Camera.main.ScreenToWorldPoint(new Vector2(Input.mousePosition.x, Input.mousePosition.y));
+        mouseIcon.transform.position = mouseLocation;
+    }
+
+    public Vector2 GetMouseLocation()
+    {
+        return mouseLocation;  
+    }
+
+
 }

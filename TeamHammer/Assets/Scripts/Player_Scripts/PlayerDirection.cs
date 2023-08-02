@@ -22,7 +22,7 @@ public class PlayerDirection : MonoBehaviour
     }
     public void ChangeDirection(Direction direction)
     {
-        string directionInString = null;
+        string directionInString = "None";
         switch (direction)
         {
             case Direction.Up:
@@ -71,7 +71,7 @@ public class PlayerDirection : MonoBehaviour
     {
         if (context.started)
         {
-            Vector2 mouseLocation = mousePosition.GetMousePosition(context);
+            Vector2 mouseLocation = mousePosition.GetMouseLocation();
             Vector2 playerLocation = transform.position;
             Direction direction= (GetDirectionBetweenTwoPoints(playerLocation, mouseLocation));
             ChangeDirection(direction);
@@ -79,9 +79,9 @@ public class PlayerDirection : MonoBehaviour
     }
 
 
-    private Direction GetDirectionBetweenTwoPoints(Vector2 point1, Vector2 point2)
+    private Direction GetDirectionBetweenTwoPoints(Vector2 origin, Vector2 target)
     {
-        float angle = CalculateRotation(point1, point2);
+        float angle = CalculateRotationInDegreeFromTwoPoints(origin, target);
         //each of the 8 angle will be 45 degree
         if (angle >= 67.5 && angle < 112.5)
         {
@@ -119,16 +119,6 @@ public class PlayerDirection : MonoBehaviour
             return Direction.None;
     }
 
-    static float CalculateRotation(Vector2 point1, Vector2 point2)
-    {
-        float angle =  Mathf.Atan2(point2.y - point1.y , point2.x-point1.x) * 180 / Mathf.PI;
-        if (angle < 0)
-        {
-            angle += 360; 
-        }
-        return angle; 
-    }
-
 
     void SetInAnimator(string facingDirection)
     {
@@ -142,5 +132,16 @@ public class PlayerDirection : MonoBehaviour
         animator.SetBool("DownRight", false);
 
         animator.SetBool(facingDirection, true);
+    }
+
+    //static methods
+    public static float CalculateRotationInDegreeFromTwoPoints(Vector2 origin, Vector2 target)
+    {
+        float angle =  Mathf.Atan2(target.y - origin.y , target.x-origin.x) * 180 / Mathf.PI;
+        if (angle < 0)
+        {
+            angle += 360;
+        }
+        return angle;
     }
 }
