@@ -14,8 +14,14 @@ public class NoteSystem : MonoBehaviour
         }
         set
         {
-            m_notes = value;
-            OnNoteChange.Invoke(m_notes);
+            if (value <= 3)
+            {
+                m_notes = value;
+                OnNoteChange.Invoke(m_notes);
+            }
+            else
+                Debug.Log("Reached note limit");
+            ;
         }
     }
 
