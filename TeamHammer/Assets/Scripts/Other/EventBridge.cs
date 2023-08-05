@@ -8,4 +8,10 @@ public class EventBridge : MonoBehaviour
     {
         CoinSystem.LoseCoins();
     }
+
+
+    public void BoostDamage()
+    {
+        DealDamage.BoostDamage();
+    }
 }

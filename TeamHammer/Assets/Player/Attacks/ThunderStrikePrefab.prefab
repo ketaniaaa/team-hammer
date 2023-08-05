@@ -12,7 +12,9 @@ GameObject:
   - component: {fileID: 7647365077574087202}
   - component: {fileID: 4015194756700596330}
   - component: {fileID: 654941445}
-  m_Layer: 0
+  - component: {fileID: 6378408296489565987}
+  - component: {fileID: -9152615553383185629}
+  m_Layer: 8
   m_Name: ThunderStrikePrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -120,4 +122,35 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animation: {fileID: 7400000, guid: 759aaa436a742f247859dfb6c15e2baa, type: 2}
-  time: 0
+--- !u!114 &6378408296489565987
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8080461733435289505}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b9dde3e27bd05df40a2fa7e85d8c49e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 40
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 128
+--- !u!58 &-9152615553383185629
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8080461733435289505}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.5

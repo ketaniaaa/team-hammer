@@ -5,13 +5,22 @@ using UnityEngine;
 public class DealDamage : MonoBehaviour
 {
     [SerializeField] float damage= 20;
-    [SerializeField] LayerMask layerMask; 
-    private void OnCollisionEnter2D(Collision2D collision)
+    [SerializeField] LayerMask layerMask;
+    static float damageBoost =0; 
+
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.layer == layerMask)
+        if ((layerMask & (1 << collision.gameObject.layer)) > 0)
         {
-            collision.gameObject.GetComponent<Health>()?. GotHit(damage);
+            collision.gameObject.GetComponentInChildren<Health>()?.GotHit(damage+damageBoost); //this is so bad but whatever
+            Debug.Log("this hits target");
         }
+        Debug.Log("trigger got called at least");
     }
- 
+
+    public static void BoostDamage()
+    {
+        damageBoost += 5; 
+    }
+
 }

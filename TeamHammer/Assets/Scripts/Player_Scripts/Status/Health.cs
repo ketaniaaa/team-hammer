@@ -10,7 +10,7 @@ public class Health : MonoBehaviour
 
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         curHealth = maxHealth;
     }
@@ -39,6 +39,16 @@ public class Health : MonoBehaviour
     {
         curHealth = maxHealth;
         OnHeal.Invoke();
+    }
+
+    public float GetCurHealth()
+    {
+        return curHealth;
+    }
+
+    public float GetMaxHealth()
+    {
+        return maxHealth;
     }
 
 }

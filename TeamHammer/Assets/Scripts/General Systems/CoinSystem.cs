@@ -7,8 +7,7 @@ using static UnityEditor.Experimental.AssetDatabaseExperimental.AssetDatabaseCou
 
 public class CoinSystem : MonoBehaviour
 {
-
-    private static int m_coins=0;
+    private static int m_coins=10;
     public static int Coins
     {
         get
@@ -22,12 +21,6 @@ public class CoinSystem : MonoBehaviour
         }
     }
 
-    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
-    static void Init()
-    {
-        Debug.Log("coins reset.");
-        m_coins = 0;
-    }
     public static event Action <int>OnCoinChange;
 
     public static void LoseCoins()
